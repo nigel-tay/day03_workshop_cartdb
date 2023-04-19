@@ -1,13 +1,101 @@
 package sg.edu.nus.iss;
 
+import java.io.Console;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  * Hello world!
  *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+public class App {
+    public static void main(String[] args) throws IOException {
+        // Instantiate File object to be able to check if it exists or not
+        String dirPath = args[0];
+        File newDirectory = new File(dirPath);
+
+        // Check if directory exists. Yes? print_exist : mkdir
+        if (newDirectory.exists()) {
+            System.out.println("Directory already exists");
+        } else {
+            newDirectory.mkdir();
+        }
+
+        System.out.println("Welcome to my Shopping Cart");
+
+        // List collection to store the cart items of login user
+        List<String> cartItems = new ArrayList<String>();
+
+        // Use Console class to read from keyboard input
+        Console con = System.console();
+        String input = "";
+
+        // Used to keep track of current logged in user
+        // Also used to create a filename to store user cart items
+        String loginUser = "";
+
+        // Exit while loop if keyboard input "quit" is entered
+        while (!input.equals("quit")) {
+            input = con.readLine("What would you like to do?");
+
+            if (input.contains("login")) {
+                Scanner scan = new Scanner(input.substring(6));
+
+                while (scan.hasNext()) {
+                    loginUser = scan.next();
+                }
+
+                // Check if the file <loginuser> exists
+                // If it does not exist create a new file
+                // Else override
+
+                File loginFile = new File(dirPath + File.separator + loginUser);
+                if (loginFile.exists()) {
+                    System.out.println("File " + loginUser + " already exists");
+                } else {
+                    loginFile.createNewFile();
+                }
+            }
+
+            if (input.startsWith("users")) {
+                File directoryPath = new File(dirPath);
+
+                String[] directoryListing = directoryPath.list();
+                System.out.println("List of files and directories in the specific folder " + dirPath);
+                for (String dirList : directoryListing) {
+                    System.out.println(dirList);
+                }
+            }
+
+            // Add cart items logic
+            if (input.startsWith("add")) {
+                input = input.replace(',', ' ');
+
+                // Use FileWrite & PrintWriter to write to a <loginuser> file
+                FileWriter fw = new FileWriter(dirPath + File.separator + loginUser, false);
+                PrintWriter pw = new PrintWriter(fw);
+
+                String currentScanString = "";
+                Scanner inputScanner = new Scanner(input.substring(4));
+
+                while (inputScanner.hasNext()) {
+                    currentScanString = inputScanner.next();
+                    cartItems.add(currentScanString);
+
+                    // Write to file using PrintWriter
+                    pw.write("\n" + currentScanString);
+                }
+
+                // Flush and close the FileWriter & PrintWriter objects
+                pw.flush();
+                pw.close();
+                fw.close();
+            }
+        }
     }
 }
