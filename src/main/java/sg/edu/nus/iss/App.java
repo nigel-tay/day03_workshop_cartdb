@@ -122,6 +122,26 @@ public class App {
                 br.close();
             }
 
+            // Start of DELETE logic
+            if (input.startsWith("delete")) {
+                String[] stringVal = input.split(" ");
+
+                int givenIndex = Integer.parseInt(stringVal[1]);
+
+                if (givenIndex <= cartItems.size() ) {
+                    cartItems.remove(givenIndex);
+                }
+                else {
+                    System.out.println("Index given is out of range.");
+                }
+
+                // Open FileWriter and BufferedWriter
+
+                // Loop to write cartItems to file
+
+                //  Close BufferedWriter and FileWriter
+            }
+
         }
     }
 }
