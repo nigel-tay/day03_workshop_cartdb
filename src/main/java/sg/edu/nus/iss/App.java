@@ -1,7 +1,9 @@
 package sg.edu.nus.iss;
 
+import java.io.BufferedReader;
 import java.io.Console;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -96,6 +98,30 @@ public class App {
                 pw.close();
                 fw.close();
             }
+
+            // User must be logged in first
+            // Must perform the following first
+            // e.g. login <loginuser>
+            if (input.equals("list")) {
+                // Need a file class and BufferedReader class to read the cart Items form the fle (bacause data is stored line by line)
+                File readFile = new File(dirPath + File.separator + loginUser);
+                BufferedReader br = new BufferedReader(new FileReader(readFile));
+
+                String readFileInput = "";
+
+                //  Reset cartItems List collection
+                cartItems = new ArrayList<String>();
+
+                // While loop to read through all item records in file
+                while ((readFileInput = br.readLine()) != null) { // REMEMBER THAT YOU HAVE TO ASSIGN THE READ LINE INTO A VARIABLE
+                    System.out.println(readFileInput);
+                    cartItems.add(readFileInput);
+                }
+
+                // Once while loop is exit, close BufferedReader object
+                br.close();
+            }
+
         }
     }
 }
