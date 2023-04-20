@@ -90,7 +90,7 @@ public class App {
                     cartItems.add(currentScanString);
 
                     // Write to file using PrintWriter
-                    pw.write("\n" + currentScanString);
+                    pw.write(currentScanString + "\n");
                 }
 
                 // Flush and close the FileWriter & PrintWriter objects
