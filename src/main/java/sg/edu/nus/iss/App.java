@@ -1,6 +1,7 @@
 package sg.edu.nus.iss;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.Console;
 import java.io.File;
 import java.io.FileReader;
@@ -136,10 +137,19 @@ public class App {
                 }
 
                 // Open FileWriter and BufferedWriter
+                FileWriter fw = new FileWriter(dirPath + File.separator + loginUser, false);
+                BufferedWriter bw = new BufferedWriter(fw);
 
                 // Loop to write cartItems to file
+                for (String item: cartItems) {
+                    bw.write(item);
+                    bw.newLine();
+                }
 
-                //  Close BufferedWriter and FileWriter
+                //  Flush and Close BufferedWriter and FileWriter
+                bw.flush();
+                bw.close();
+                fw.close();
             }
 
         }
